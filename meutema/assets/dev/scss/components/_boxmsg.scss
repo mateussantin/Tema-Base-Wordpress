@@ -1,0 +1,70 @@
+@import '../mix/variables';
+
+// BOX DE MENSAGEM (SUCCESS, INFO, WARNING, ERROR)
+//--------------------------------------
+.msg-box {
+    color: $box-txt;
+    font-size: $font-base*1px;
+    font-weight: 400;
+    padding: 14px 20px 12px;
+    border: 1px solid;
+    display: block;
+    line-height: 1.4em;
+    @include flex(12);
+    text-align: center;
+    margin: 0 15px;
+
+    a {
+        text-decoration: underline;
+        font-weight: 700;
+    }
+
+    &.is-info {
+        border-color: darken($info-border, 25%);
+        background-color: $info-border;
+
+        strong,
+        a {
+            color: darken($info-border, 25%);
+        }
+    }
+
+    &.is-error {
+        border-color: darken($error-border, 25%);
+        background-color: $error-border;
+
+        strong,
+        a {
+            color: darken($error-border, 25%);
+        }
+    }
+
+    &.is-success {
+        border-color: darken($success-border, 25%);
+        background-color: $success-border;
+
+        strong,
+        a {
+            color: darken($success-border, 25%);
+        }
+    }
+
+    &.is-warning {
+        border-color: darken($warning-border, 25%);
+        background-color: $warning-border;
+
+        strong,
+        a {
+            color: darken($warning-border, 25%);
+        }
+    }
+
+    &.is-full {
+        margin: 0 15px;
+    }
+
+    &[hidden] {
+        display: none;
+    }
+
+}
