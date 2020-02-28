@@ -8,8 +8,8 @@
 
 	// SETUP INITIAL
 	//--------------------------------------
-	if ( ! function_exists( 'industriasolar_setup' ) ) :
-		function industriasolar_setup() {
+	if ( ! function_exists( 'theme_setup' ) ) :
+		function theme_setup() {
 			// LOGO
 			add_theme_support(
 				'custom-logo',
@@ -47,7 +47,7 @@
 			add_theme_support( 'responsive-embeds' );
 		}
 	endif;
-	add_action( 'after_setup_theme', 'industriasolar_setup' );
+	add_action( 'after_setup_theme', 'theme_setup' );
 
 
 	// SCRIPTS AND STYLES

@@ -1,8 +1,14 @@
 // PAGINA INICIAL
 //--------------------------------------
 .site-content {
-    width: 1200px;
-    height: 600px;
-    margin: 50px auto 50px auto;
-    background: #ccc;
+    width: 100%;
+    height: 100vh;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        width: 500px;
+    }
 }

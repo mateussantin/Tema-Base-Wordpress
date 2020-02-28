@@ -3,7 +3,7 @@
 	<section id="primary" class="content-area">
 		<main id="main" class="site-main">
 
-			<h2>Bem vindo a pagina inicial</h2>
+			<img src="<?php echo get_theme_file_uri(); ?>/assets/images/logo.png" />
 
 		</main>
 	</section>

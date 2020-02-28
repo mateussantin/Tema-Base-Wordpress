@@ -3,7 +3,6 @@
 			</div><!-- #content -->
 
 			<footer class="footer">
-				
 			</footer>
 
 		</div><!-- #page -->
