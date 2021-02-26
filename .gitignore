@@ -1,5 +1,4 @@
 ﻿#Arquivos desnecessários
-
 Thumbs.db
 ehthumbs.db
 ehthumbs_vista.db
@@ -23,7 +22,6 @@ clean.php
 .idea
 
 #Extensoes desnecessárias
-
 *.log
 *.bak
 *.bak.*
@@ -37,25 +35,7 @@ Thumbs.db
 
 ### WordPress ###
 *.log
-wp-content/backups/
-wp-content/cache/
-wp-content/upgrade/**/*
-wp-content/wp-cache-config.php
-wp-content/plugins/hello.php
-wp-content/themes/twentyfourteen/
-wp-content/themes/twentythirteen/
-wp-content/themes/twentytwelve/
-wp-content/themes/twentytwenty/
-wp-content/wflogs/config-transient.php
-wp-content/wflogs/config-synced.php
-wp-content/wflogs/config-livewaf.php
-wp-content/wflogs/attack-data.php
-wp-content/wflogs/template.php
-wp-content/wflogs/config.php
-node_modules/
-wp-admin/install.php
-wp-config-sample.php
-
+node_modules/**/*
 /license.txt
 /readme.html
 /sitemap.xml

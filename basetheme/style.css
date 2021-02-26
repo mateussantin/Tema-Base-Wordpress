@@ -1,12 +1,13 @@
 @charset "UTF-8";
 /*
 Theme Name: Tema Base
-Theme URI: https://mateussantin.netlify.com/
+Theme URI: https://github.com/mateussantin/Tema-Base-Wordpress
 Author: Mateus Santin Junior
-Description: Tema base de livre acesso sem custo ou fins lucrativos.
-Requires at least: WordPress 4.9.6
-Version: 1.0
+Author URI: https://github.com/mateussantin
+Description: Este tema base foi desenvolvido para facilitar o desenvolvimento do site, já com algumas funcionalidades, funções e códigos prontos e que aceleram o desenvolvimento e mantem um padrão de código.
+Version: 2.0
+Tested up to: 5.4
+Requires PHP: 7.0
 License: GNU General Public License v2 or later
-License URI: LICENSE
-Text Domain: https://mateussantin.netlify.com/
+Text Domain: basetheme
 Tags: Wordpress, website, html, php, js, css, sass, web design.

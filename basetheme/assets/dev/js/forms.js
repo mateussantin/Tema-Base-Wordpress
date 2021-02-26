@@ -13,8 +13,15 @@ $(document).ready(function () {
         }
     };
 
+    // MASKS
+    //--------------------------------------
     $('input[name="telefone"]').mask(SPMaskBehavior, spOptions);
     $('input[name="celular"]').mask(SPMaskBehavior, spOptions);
+    $('input[name="cep"]').mask('00000-000');
+    $('input[name="cpf"]').mask('000.000.000-00', {reverse: true});
+    $('input[name="cnpj"]').mask('00.000.000/0000-00', {reverse: true});
+    $('input[name="money"]').mask('000.000.000.000.000,00', {reverse: true});
+    $('.date-formated').mask("00/00/0000", {placeholder: "__/__/____"});
 
 
     // CIDADE E ESTADO

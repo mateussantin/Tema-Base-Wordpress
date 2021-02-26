@@ -23,7 +23,7 @@ html {
 }
 
 body {
-    font-family: 'Gotham Rounded Book', sans-serif;
+    font-family: $font-family;
     font-size: $font-base*1px;
     color: $color-gray;
 
@@ -48,8 +48,9 @@ a {
 
 // ESTILOS COMPONENTES (gerados arquivos separados)
 //------------------------------------
+@import 'components/keyframes';
 @import 'components/forms';
-@import 'components/boxmsg';
+@import 'components/alerts';
 @import 'components/header';
 @import 'components/footer';
 @import 'components/btn';

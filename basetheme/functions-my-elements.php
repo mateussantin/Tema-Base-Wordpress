@@ -10,6 +10,38 @@
     }
 
 
+    // PAGE TITLE
+    //--------------------------------------
+    function PageTitle() {
+        $out = '';
+
+        if (is_category()) {
+            $title = single_cat_title( '', false );
+        } elseif (is_tag()) {
+            $title = single_tag_title( '', false );
+        } elseif (is_author()) {
+            $title = get_the_author();
+        } elseif (is_post_type_archive()) {
+            $title = post_type_archive_title('', false);
+        } elseif (is_tax()) {
+            $title = single_term_title('', false);
+        } elseif (is_page()) {
+            $title = get_the_title('', false);
+        } else {
+            $title = 'Erro ao retornar o Título';
+        }
+
+        // title blog
+        if(get_post_type() == 'blog') $title = 'BLOG';
+
+        $out .= '<div class="page-title">';
+            $out .= '<h1>'. $title .'</h1>';
+        $out .= '</div>';
+
+        return $out;
+    }
+
+
     // MENU PRINCIPAL
     //--------------------------------------
     function MenuPrincipal() {
@@ -17,44 +49,20 @@
         $menuitems = wp_get_nav_menu_items(2);
         $count = 0;
 
-        $out .= '<nav>';
-            foreach ($menuitems as $item) :
-                $link = $item->url;
-                $title = $item->title;
+        if($menuitems):
+            $out .= '<nav>';
+                foreach ($menuitems as $item) :
+                    $link = $item->url;
+                    $title = $item->title;
 
-                if (!$item->menu_item_parent) :
-                    $parent_id = $item->ID;
-                    $out .= '<li><a href="'. $link .'" title="'. $title .'">'. $title .'</a></li>';
-                endif;
+                    if (!$item->menu_item_parent) :
+                        $parent_id = $item->ID;
+                        $out .= '<li><a href="'. $link .'" title="'. $title .'">'. $title .'</a></li>';
+                    endif;
 
-                $count++;
-            endforeach;
-        $out .= '</nav>';
-
-        return $out;
-    }
-
-
-    // SOCIAL MEDIA
-    //--------------------------------------
-    function SocialMedia() {
-        $out = '';
-
-        if( get_field('redes_sociais', 'options') ):
-            $out .= '<div class="social-media-header">';
-                while( has_sub_field('redes_sociais', 'options') ):
-                    $facebook = get_sub_field('facebook', 'options');
-                    $instagram = get_sub_field('instagram', 'options');
-
-                    if($facebook) {
-                        $out .= '<a href="'. $facebook .'" target="_blank"><img src="'. UrlBaseImage() .'/icons/icon-facebook.png" alt="Icon facebook"></a>';
-                    }
-
-                    if($instagram) {
-                        $out .= '<a href="'. $instagram .'" target="_blank"><img src="'. UrlBaseImage() .'/icons/icon-instagram.png" alt="Icon instagram"></a>';
-                    }
-                endwhile;
-            $out .= '</div>';
+                    $count++;
+                endforeach;
+            $out .= '</nav>';
         endif;
 
         return $out;
@@ -79,12 +87,41 @@
     }
 
 
+    // CLEAR NUMBER PHONE - TEL:number
+    //--------------------------------------
+    function ClearPhone($valor){
+        $valor = trim($valor);
+        $valor = str_replace("(", "", $valor);
+        $valor = str_replace(")", "", $valor);
+        $valor = str_replace(" ", "", $valor);
+        $valor = str_replace(".", "", $valor);
+        $valor = str_replace(",", "", $valor);
+        $valor = str_replace("-", "", $valor);
+        $valor = str_replace("/", "", $valor);
+
+        return $valor;
+    }
+
+
+    // FORMAT CONTENT POSTS
+    //--------------------------------------
+    function ContentFormatting($more_link_text = '(more...)', $stripteaser = 0, $more_file = '') {
+        $content = get_the_content($more_link_text, $stripteaser, $more_file);
+        $content = apply_filters('the_content', $content);
+        $content = str_replace(']]>', ']]&gt;', $content);
+        return $content;
+    }
+
+
     // SLIDER HOME AND BANNER PAGES INTERNAL
     //--------------------------------------
     function SliderAndBannerInternal() {
         $out = '';
-        $pageId = 12;
-        $slider = get_field('slider', $pageId);
+
+        $slider = '';
+        if($slider == '') return;
+
+        $slider = get_field('slider');
 
         if(is_home()):
             // Slider
@@ -100,61 +137,40 @@
                 $out .= '</div>';
             endif;
         elseif(is_page() && !is_home()):
-            // Banner Internal
-            $image = get_field('banner_header', get_the_ID());
-            if($image):
-                $out .= '<div class="banner-internal"><img src="'. $image .'" alt="Banner"></div>';
-            else:
-                $out .= '<div class="banner-internal"><img src="'.  UrlBaseImage() .'/banner-page-default.png" alt="Banner Default"></div>';
-            endif;
+            $out .= '<div class="banner-internal"><div class="wrapper-content">'. PageTitle() .'</div></div>';
         else:
-            // Default
-			$out .= '<div class="banner-internal"><img src="'.  UrlBaseImage() .'/banner-page-default.png" alt="Banner Default"></div>';
+            $out .= '<div class="banner-internal"><div class="wrapper-content">'. PageTitle() .'</div></div>';
         endif;
 
         return $out;
     }
 
 
-    // NEWS PAGE HOME
+    // LIST POST EXAMPLE
     //--------------------------------------
-    function NoticiasListHome() {
+    function ListCustomPostType() {
         global $post;
         $out = '';
 
         $args = array(
-            'post_type'      => 'noticias',
+            'post_type'      => 'POST',
             'posts_per_page' => 4,
             'orderby'        => 'id',
             'order'          => 'DESC',
             'post_status'    => 'publish',
         );
 
-        $newsHome = new WP_Query( $args );
+        $listPost = new WP_Query( $args );
 
-        if ( $newsHome->have_posts() ) :
-            while ( $newsHome->have_posts() ) : $newsHome->the_post();
+        if ( $listPost->have_posts() ) :
+            while ( $listPost->have_posts() ) : $listPost->the_post();
 
                 $title = get_the_title();
                 $description = get_the_content();
-                $image = get_the_post_thumbnail_url( get_the_ID(), 'noticias-thumb' );
+                $image = get_the_post_thumbnail_url( get_the_ID(), 'post-thumb' );
                 $url = get_the_permalink();
 
-                if(strlen($description) > 95) {
-                    $description = substr($description, 0, 95) . '...';
-                }
-
-                if(strlen($title) > 90) {
-                    $titlePrev = substr($title, 0, 90) . '...';
-                } else {
-                    $titlePrev = $title;
-                }
-
-                $out .= '<div class="news-item">';
-                    $out .= '<a href="'. $url .'" title="'. $title .'"><img class="cover-news" src="'. $image .'" alt="Capa notícia"></a>';
-                    $out .= '<h1 class="title-news"><a href="'. $url .'" title="'. $title .'">'. $titlePrev .'</a></h1>';
-                    $out .= '<p class="description-news">'. ucfirst($description) .'</p>';
-                    $out .= '<a class="link-news" href="'. $url .'" title="Continuar lendo">Continuar lendo</a>';
+                $out .= '<div>';
                 $out .= '</div>';
 
             endwhile;
@@ -167,86 +183,33 @@
     }
 
 
-    // SEARCH NEWS RESULTS
+    // LIST TAXONOMY CATEGORY
     //--------------------------------------
-    function ResultSearch() {
+    function ListTaxonomyCategory() {
         global $post;
         $out = '';
 
-        $args = array(
-            'post_type'      => 'noticias',
-            'posts_per_page' => -1,
-            'orderby'        => 'id',
-            'order'          => 'DESC',
-            'post_status'    => 'publish',
-			's'              => $_GET['s'],
-        );
-
-        $results_search_news = new WP_Query( $args );
-
-        if ( $results_search_news->have_posts() ) :
-            while ( $results_search_news->have_posts() ) : $results_search_news->the_post();
-
-                $title = get_the_title();
-                $description = get_the_content();
-                $image = get_the_post_thumbnail_url( get_the_ID(), 'noticias-thumb' );
-                $url = get_the_permalink();
-
-                if(strlen($description) > 95) {
-                    $description = substr($description, 0, 95) . '...';
-                }
-
-                if(strlen($title) > 90) {
-                    $titlePrev = substr($title, 0, 90) . '...';
-                } else {
-                    $titlePrev = $title;
-                }
-
-                $out .= '<div class="news-item">';
-                    $out .= '<a href="'. $url .'" title="'. $title .'"><img class="cover-news" src="'. $image .'" alt="Capa notícia"></a>';
-                    $out .= '<h1 class="title-news"><a href="'. $url .'" title="'. $title .'">'. $titlePrev .'</a></h1>';
-                    $out .= '<p class="description-news">'. ucfirst($description) .'</p>';
-                    $out .= '<a class="link-news" href="'. $url .'" title="Continuar lendo">Continuar lendo</a>';
-                $out .= '</div>';
-
-            endwhile;
-        else:
-            $out .= '<div class="msg-box is-info">Nenhum resultado encontrado!</div>';
-        endif;
-
-        wp_reset_postdata();
-        return $out;
-    }
-
-
-    // LIST TAXONOMY CATEGORY ESPECIALIDADES
-    //--------------------------------------
-    function ListTaxonomyCategoryEspecialidades() {
-        global $post;
-        $out = '';
+        $post_name = '';
+        $taxonomy_name = '';
 
         $terms = get_terms(
             array(
-                'post_type' => 'especialidades',
-                'taxonomy'   => 'categoria_especialidades',
-                'orderby' => 'name',
-                'order'   => 'ASC',
+                'post_type'  => $post_name,
+                'taxonomy'   => $taxonomy_name,
+                'orderby'    => 'name',
+                'order'      => 'ASC',
                 'hide_empty' => false,
             )
         );
 
         if (! empty($terms) && is_array($terms)) {
-            $i = 0;
-            $out .= '<nav id="categories-especialidades" class="categories">';
+            $out .= '<nav class="categories">';
                 foreach ( $terms as $term ) {
                     $id = $term->term_id;
                     $title = $term->name;
-                    $url = is_home() ? '/especialidades/?id='.$id : '';
+                    $slug = '/'. $post_name .'/' . $term->slug;
 
-                    $out .= '<li><a href="'. $url .'" data-id="'. $id .'" title="'. $title .'">'. $title .'</a></li>';
-
-                    // break
-                    if (++$i == 20 && is_home()) break;
+                    $out .= '<li><a href="'. $slug .'" title="'. $title .'">'. $title .'</a></li>';
                 }
             $out .= '</nav>';
         }
@@ -254,5 +217,3 @@
         wp_reset_postdata();
         return $out;
     }
-
-

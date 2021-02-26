@@ -4,7 +4,7 @@ $columns: 12;
 $larguraColuna: (100%/$columns);
 $gutter-width: 15;
 $font-base: 16;
-$larguraContent: 1290px;
+$larguraContent: 1200px;
 
 $full: 100%;
 
@@ -63,20 +63,17 @@ $full: 100%;
     list-style: none;
 }
 
+@mixin imgDefault() {
+    width: auto;
+    max-width: $full;
+    height: auto;
+    display: block;
+}
+
 // container principal
 .container {
     width: $full;
     @include flex(12);
-}
-
-// container principal paginas internas
-.container-internal {
-    width: $full;
-    height: auto;
-    display: block;
-    padding: 0;
-    position: relative;
-    z-index: 200;
 }
 
 // pages
